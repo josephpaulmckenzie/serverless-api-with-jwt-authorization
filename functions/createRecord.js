@@ -54,7 +54,7 @@ const createAccount = async (userDetails) => {
     };
     console.log('New record created');
     await dynamodb.putItem(params).promise();
-    return params;
+    return checked;
   } catch (error) {
     console.log(error.message);
     const response = {

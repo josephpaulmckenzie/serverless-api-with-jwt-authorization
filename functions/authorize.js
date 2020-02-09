@@ -2,9 +2,6 @@ const _ = require('lodash');
 const jwt = require('jsonwebtoken');
 const utils = require('../lib/utils');
 
-// Returns a boolean whether or not a user is allowed to call a particular method
-// A user with scopes: ['pangolins'] can
-// call 'arn:aws:execute-api:ap-southeast-1::random-api-id/dev/GET/pangolins'
 const authorizeUser = (userScopes, methodArn) => {
   console.log(`authorizeUser ${JSON.stringify(userScopes)} ${methodArn}`);
   const hasValidScope = _.some(userScopes, scope => _.endsWith(methodArn, scope));
@@ -21,13 +18,13 @@ const authorizeUser = (userScopes, methodArn) => {
  exports.handler = async (event) => {
 
   console.log('authorize');
-  console.log(event);
+  // console.log(event);
   const token = event.authorizationToken;
-  console.log(token);
+  // console.log(token);
   try {
     // Verify JWT
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(JSON.stringify(decoded));
+    // console.log(JSON.stringify(decoded));
 
     // Checks if the user's scopes allow them to call the current endpoint ARN
     const user = decoded.user;

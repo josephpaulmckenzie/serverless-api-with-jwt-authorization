@@ -5,21 +5,20 @@ AWS.config.update({
 });
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-const scanTable = async()=>{
+const scanTable = async(tableName)=>{
   try {
     const params = {
       ExpressionAttributeNames: {
         '#Id': 'Id'
-      },
-      ProjectionExpression: '#Id',
-      TableName: 'Records',
+        },
+      ProjectionExpression: '#Id,FirstName,LastName',
+      TableName: tableName,
     };
       
     const data = await dynamodb.scan(params).promise();
     const recordCount = `Records found: ${data.Count}`;
-    console.log(`${recordCount}`);
-    console.log(data.Items);
     return data.Items;
+
   } catch (error) {
     console.log(error);
   }
@@ -28,5 +27,3 @@ const scanTable = async()=>{
 module.exports = {
     scanTable,
   };
-
-// c();

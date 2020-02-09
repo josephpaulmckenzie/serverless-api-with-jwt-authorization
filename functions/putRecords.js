@@ -1,3 +1,6 @@
+const records = require('./updateRecord');
+
+
 /**
   * PUT /putRecords
   *
@@ -5,11 +8,13 @@
   * @returns {Array.Object}
   */
  exports.handler = async (event) => {
-  console.log('getPangolins');
-  console.log(event);
-
+   const body =JSON.parse(event.body);
+   const tableName = body.tableName;
+   const Id = body.Id;
+   console.log();
+  records.update(tableName,Id)
   const user = JSON.parse(event.requestContext.authorizer.user);
-  console.log(user);
+  // console.log(user);
 
   const response = {
     statusCode: 200,

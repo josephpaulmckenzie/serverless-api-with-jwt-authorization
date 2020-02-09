@@ -1,8 +1,8 @@
 {
   "name": "serverless-auth",
   "version": "1.0.0",
-  "repository": "git@github.com:yosriady/serverless-auth.git",
-  "author": "Yos Riady <yosriady@gmail.com>",
+  "repository": "",
+  "author": "Joseph Mckenzie",
   "license": "MIT",
   "scripts": {
     "test": "node_modules/.bin/jest",
@@ -20,6 +20,7 @@
     "collectCoverage": true
   },
   "dependencies": {
+    "aws-sdk": "^2.614.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15"
   }

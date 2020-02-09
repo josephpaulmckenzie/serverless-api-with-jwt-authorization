@@ -15,9 +15,10 @@ const JWT_EXPIRATION_TIME = '60m';
   */
  exports.handler = async (event) => {
   console.log('login');
-  const { username, password } = JSON.parse(event.body);
 
   try {
+    const { username, password } = JSON.parse(event.body);
+
     // Authenticate user
     const user = users.login(username, password);
     console.log(user);

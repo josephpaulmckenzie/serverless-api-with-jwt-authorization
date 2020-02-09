@@ -7,13 +7,12 @@ const records = require('./putTableRecords');
   * @returns {Array.Object}
   */
 exports.handler = async (event) => {
-  const body = JSON.parse(event.body);
-  const { tableName, Id, Status } = body;
-  console.log();
-  records.update(tableName, Id, Status);
   const user = JSON.parse(event.requestContext.authorizer.user);
-  console.log(user);
-
+  const updatedByUser = user.username;
+  const body = JSON.parse(event.body);
+  const { tableName, Id, paymentStatus } = body;
+  console.log();
+  records.update(tableName, Id, paymentStatus, updatedByUser);
   const response = {
     statusCode: 200,
     headers: {

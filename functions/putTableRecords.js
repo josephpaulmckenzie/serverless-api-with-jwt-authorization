@@ -12,27 +12,26 @@ const docClient = new AWS
     endpoint: 'dynamodb.us-east-1.amazonaws.com',
   });
 
-async function update(tableName, recordId, status) {
+async function update(tableName, recordId, status, updatedByUser) {
   const results = [];
 
   try {
     const lastUpdated = new Date();
-    console.log(lastUpdated);
     const params = {
       TableName: tableName,
       Key: {
         Id: recordId,
       },
-      UpdateExpression: 'set #Status = :Status,#last_updated = :last_updated',
+      UpdateExpression: 'set #Status = :Status,#last_updated = :last_updated, #updatedByUser = :updatedByUser',
       ExpressionAttributeNames: {
         '#Status': 'Status',
         '#last_updated': 'last_updated',
-        // "#updated_at": "updated_at"
+        '#updatedByUser': 'updatedByUser',
       },
       ExpressionAttributeValues: {
         ':Status': status,
         ':last_updated': moment(lastUpdated).toISOString(),
-        // ":updated_at": moment(updated_at).toISOString()
+        ':updatedByUser': updatedByUser,
       },
     };
     const item = await docClient

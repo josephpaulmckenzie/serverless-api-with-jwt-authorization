@@ -23,19 +23,15 @@ const dynamodb = new AWS.DynamoDB({ apiVersion: '2012-08-10' });
   * @returns {Object} new account Details
   */
 
-const userIdGen = uuidv4();
-let timestamp = new Date();
-timestamp = moment(timestamp).format('MM/DD/YYYY hh:mm:ss a');
-
 const createAccount = async (userDetails) => {
   // validator and sanitizer for userinfo
-  const checked = await validator.validate(userDetails);
-
-  const {
-    userId, firstName, lastName, emailAddress, createdAt,
-  } = checked;
 
   try {
+    const checked = await validator.validate(userDetails);
+    const {
+      userId, firstName, lastName, emailAddress, createdAt,
+    } = checked;
+
     const params = {
       Item: {
         Id: {
@@ -56,15 +52,39 @@ const createAccount = async (userDetails) => {
       },
       TableName: 'Records',
     };
-    console.log('New record');
+    console.log('New record created');
     await dynamodb.putItem(params).promise();
+    return params;
   } catch (error) {
-    console.log(error);
-    throw error;
+    console.log(error.message);
+    const response = {
+      statusCode: 400,
+      headers: {
+        'Access-Control-Allow-Origin': '*', // Required for CORS support to work
+      },
+      body: error.message,
+    };
+    return response;
   }
 };
 
 
-createAccount({
-  userId: userIdGen, firstName: 'Joseph', lastName: 'Mckenzie', emailAddress: 'me@josephpmckenzie.com', createdAt: timestamp,
-});
+exports.handler = async (event) => {
+  const { firstName, lastName, emailAddress } = JSON.parse(event.body);
+  const userId = uuidv4();
+  let createdAt = new Date();
+  createdAt = moment(createdAt).format('MM/DD/YYYY hh:mm:ss a');
+
+
+  const results = await createAccount({
+    userId, firstName, lastName, emailAddress, createdAt,
+  });
+  const response = {
+    statusCode: results.statusCode,
+    headers: {
+      'Access-Control-Allow-Origin': '*', // Required for CORS support to work
+    },
+    body: JSON.stringify({ Records: results }),
+  };
+  return response;
+};

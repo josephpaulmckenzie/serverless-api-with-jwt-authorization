@@ -15,6 +15,15 @@ provider:
   environment:
     JWT_SECRET: ${self:custom.secrets.jwtSecret}
 functions:
+  createRecord:
+    handler: functions/createRecord.handler
+    events:
+      - http:
+          path: createRecord
+          method: post
+          cors: true
+          authorizer: authorize # Creating records is protected
+
   login:
     handler: functions/login.handler
     events:
@@ -24,7 +33,7 @@ functions:
           cors: true
   authorize:
     handler: functions/authorize.handler
-  getCats:
+  getRecords:
     handler: functions/getRecords.handler
     events:
       - http:

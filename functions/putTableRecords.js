@@ -7,30 +7,31 @@ AWS.config.update({
 });
 const docClient = new AWS
   .DynamoDB
-  .DocumentClient({ convertEmptyValues: true,
+  .DocumentClient({
+    convertEmptyValues: true,
     endpoint: 'dynamodb.us-east-1.amazonaws.com',
   });
 
-async function update(tableName, recordId) {
+async function update(tableName, recordId, status) {
   const results = [];
 
   try {
-    const last_updated = new Date();
-    console.log(last_updated);
+    const lastUpdated = new Date();
+    console.log(lastUpdated);
     const params = {
       TableName: tableName,
       Key: {
         Id: recordId,
       },
-      UpdateExpression: 'set #FirstName = :FirstName,#last_updated = :last_updated',
+      UpdateExpression: 'set #Status = :Status,#last_updated = :last_updated',
       ExpressionAttributeNames: {
-        '#FirstName': 'FirstName',
+        '#Status': 'Status',
         '#last_updated': 'last_updated',
         // "#updated_at": "updated_at"
       },
       ExpressionAttributeValues: {
-        ':FirstName': 'Joe',
-        ':last_updated': moment(last_updated).toISOString(),
+        ':Status': status,
+        ':last_updated': moment(lastUpdated).toISOString(),
         // ":updated_at": moment(updated_at).toISOString()
       },
     };

@@ -5,25 +5,25 @@ AWS.config.update({
 });
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-const scanTable = async(tableName)=>{
+// eslint-disable-next-line consistent-return
+const scanTable = async (tableName) => {
   try {
     const params = {
       ExpressionAttributeNames: {
-        '#Id': 'Id'
-        },
+        '#Id': 'Id',
+      },
       ProjectionExpression: '#Id,FirstName,LastName',
       TableName: tableName,
     };
-      
-    const data = await dynamodb.scan(params).promise();
-    const recordCount = `Records found: ${data.Count}`;
-    return data.Items;
 
+    const data = await dynamodb.scan(params).promise();
+    // const recordCount = `Records found: ${data.Count}`;
+    return data.Items;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 module.exports = {
-    scanTable,
-  };
+  scanTable,
+};

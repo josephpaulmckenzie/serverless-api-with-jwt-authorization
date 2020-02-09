@@ -22,7 +22,7 @@ async function update(tableName, recordId, status, updatedByUser) {
       Key: {
         Id: recordId,
       },
-      UpdateExpression: 'set #Status = :Status,#last_updated = :last_updated, #updatedByUser = :updatedByUser',
+      UpdateExpression: 'set #Status = :Status, #last_updated = :last_updated, #updatedByUser = :updatedByUser',
       ExpressionAttributeNames: {
         '#Status': 'Status',
         '#last_updated': 'last_updated',

@@ -2,6 +2,8 @@
   "dependencies": {
     "aws-sdk": "^2.614.0",
     "moment": "^2.24.0",
-    "serverless-offline": "^5.12.1"
+    "serverless-offline": "^5.12.1",
+    "uuid": "^3.4.0",
+    "validator": "^12.2.0"
   }
 }

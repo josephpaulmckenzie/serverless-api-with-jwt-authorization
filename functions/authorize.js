@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 const utils = require('../lib/utils');
 
 const authorizeUser = (userScopes, methodArn) => {
-  console.log(`authorizeUser ${JSON.stringify(userScopes)} ${methodArn}`);
   const hasValidScope = _.some(userScopes, (scope) => _.endsWith(methodArn, scope));
   return hasValidScope;
 };
@@ -17,18 +16,15 @@ const authorizeUser = (userScopes, methodArn) => {
   * @throws Returns 403 if the token does not have sufficient permissions.
   */
 exports.handler = async (event) => {
-  console.log('authorize');
-  // console.log(event);
   const token = event.authorizationToken;
-  // console.log(token);
   try {
     // Verify JWT
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    // console.log(JSON.stringify(decoded));
 
     // Checks if the user's scopes allow them to call the current endpoint ARN
     const { user } = decoded;
-    const isAllowed = authorizeUser(user.scopes, event.methodArn);
+
+    const isAllowed = authorizeUser(user.scopes.S, event.methodArn);
 
     // Return an IAM policy document for the current endpoint
     const effect = isAllowed ? 'Allow' : 'Deny';
@@ -36,7 +32,6 @@ exports.handler = async (event) => {
     const authorizerContext = { user: JSON.stringify(user) };
     const policyDocument = utils.buildIAMPolicy(userId, effect, event.methodArn, authorizerContext);
 
-    console.log('Returning IAM policy document');
     return policyDocument;
   } catch (error) {
     console.log(error.message);

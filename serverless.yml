@@ -15,11 +15,11 @@ provider:
   environment:
     JWT_SECRET: ${self:custom.secrets.jwtSecret}
 functions:
-  create_new_user_account:
-    handler: functions/create_new_user_account.handler
+  create_new_customer_account:
+    handler: functions/create_new_customer_account.handler
     events:
       - http:
-          path: create_new_user_account
+          path: create_new_customer_account
           method: post
           cors: true
           authorizer: authorize # Creating records is protecte

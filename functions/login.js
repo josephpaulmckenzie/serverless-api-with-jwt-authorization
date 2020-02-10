@@ -12,11 +12,13 @@ const JWT_EXPIRATION_TIME = '60m';
   * @param {String} event.body.username
   * @param {String} event.body.password
   * @throws Returns 401 if the user is not found or password is invalid.
-  * @returns {Object} jwt that expires in 5 mins
+  * @returns {Object} jwt that expires in 60 mins
   */
+
 exports.handler = async (event) => {
   try {
     const { username, password } = JSON.parse(event.body);
+
     // Authenticate user
     const user = await users.login(username, crypto.encrypt(password));
 

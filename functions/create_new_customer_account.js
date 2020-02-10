@@ -13,19 +13,18 @@ const dynamodb = new AWS.DynamoDB({ apiVersion: '2012-08-10' });
 /**
   *
   * @method createAccount - Creats a new user account.
-  * @param {String} userId - Users generated Id
-  * @param {String} firstName - Users First name
-  * @param {String} lastName  - Users Last name
-  * @param {String} emailAddress - Users email address
-  * @param {String} userType - Users account type
+  * @param {String} userId - Users generated Id - auto generated
+  * @param {String} firstName - Users First name - required
+  * @param {String} lastName  - Users Last name  - required
+  * @param {String} emailAddress - Users email address - required
+  * @param {String} createdAt - time of account creation - auto generated
   * @throws Will throw an error if all params do not pass validation check
   * @returns {Object} newly created account details
   */
 
 const createAccount = async (userDetails) => {
-  // validator and sanitizer for userinfo
-
   try {
+    // validator and sanitizer for userinfo
     const checked = await validator.validate(userDetails);
     const {
       userId, firstName, lastName, emailAddress, createdAt,

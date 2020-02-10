@@ -3,9 +3,7 @@ const AWS = require('aws-sdk');
 const moment = require('moment');
 const uuidv4 = require('uuid/v4');
 const validator = require('../lib/validator');
-// var validator = require('validator');
 
-// moment().format();
 AWS.config.update({
   region: 'us-east-1',
 });
@@ -13,14 +11,15 @@ AWS.config.update({
 const dynamodb = new AWS.DynamoDB({ apiVersion: '2012-08-10' });
 
 /**
-  * Returns a new user account.
   *
-  * @method createAccount
+  * @method createAccount - Creats a new user account.
+  * @param {String} userId - Users generated Id
   * @param {String} firstName - Users First name
   * @param {String} lastName  - Users Last name
-  * @param {String} userType - User account type
-  * @throws Will throw an error if all params are not entered
-  * @returns {Object} new account Details
+  * @param {String} emailAddress - Users email address
+  * @param {String} userType - Users account type
+  * @throws Will throw an error if all params do not pass validation check
+  * @returns {Object} newly created account details
   */
 
 const createAccount = async (userDetails) => {
@@ -74,7 +73,6 @@ exports.handler = async (event) => {
   const userId = uuidv4();
   let createdAt = new Date();
   createdAt = moment(createdAt).format('MM/DD/YYYY hh:mm:ss a');
-
 
   const results = await createAccount({
     userId, firstName, lastName, emailAddress, createdAt,

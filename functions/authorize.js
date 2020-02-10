@@ -38,8 +38,8 @@ exports.handler = async (event) => {
 
     console.log('Returning IAM policy document');
     return policyDocument;
-  } catch (e) {
-    console.log(e.message);
+  } catch (error) {
+    console.log(error.message);
     return 'Unauthorized'; // Return a 401 Unauthorized response
   }
 };

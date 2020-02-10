@@ -6,7 +6,7 @@ AWS.config.update({
 
 const dynamodb = new AWS.DynamoDB({ apiVersion: '2012-08-10' });
 
-const startUserLogin = async (username) => {
+const startUserLogin = async (username, password) => {
   try {
     const params = {
       ExpressionAttributeNames: {
@@ -19,8 +19,11 @@ const startUserLogin = async (username) => {
         ':username': {
           S: username,
         },
+        ':password': {
+          S: password,
+        },
       },
-      FilterExpression: 'username = :username',
+      FilterExpression: 'username = :username and password  = :password',
       ProjectionExpression: '#Id,#username,#password,#accountType',
       TableName: 'Accounts',
     };
@@ -33,6 +36,7 @@ const startUserLogin = async (username) => {
     return data.Items[0];
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 

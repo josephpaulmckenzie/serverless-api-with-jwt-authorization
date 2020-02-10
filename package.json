@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "aws-sdk": "^2.614.0",
+    "dotenv": "^8.2.0",
     "moment": "^2.24.0",
     "serverless-offline": "^5.12.1",
     "uuid": "^3.4.0",

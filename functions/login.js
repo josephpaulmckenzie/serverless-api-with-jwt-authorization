@@ -22,7 +22,7 @@ exports.handler = async (event) => {
 
     // Issue JWT
     const token = jwt.sign({ user }, process.env.JWT_SECRET, { expiresIn: JWT_EXPIRATION_TIME });
-    // console.log(`JWT issued: ${token}`);
+
     const response = { // Success response
       statusCode: 200,
       headers: {

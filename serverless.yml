@@ -48,3 +48,19 @@ functions:
           method: post
           cors: true
           authorizer: authorize # Modifying records is protected
+resources:
+  Resources:
+    Accounts:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Accounts
+        AttributeDefinitions:
+          - AttributeName: Id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: Id
+            KeyType: HASH
+        # Set the capacity to auto-scale
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
